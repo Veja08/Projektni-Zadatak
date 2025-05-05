@@ -32,25 +32,35 @@ int main(){
 
     int k; cin >> k;
     
-    sort(a.begin(), a.end(), [](programer a, programer b){
-        return a.odnos < b.odnos;
+    sort(a.begin(), a.end(), [](programer b, programer c){
+        return b.odnos < c.odnos;
     });
+
+    //for(int i = 0; i < a.size(); i++)
+       // cout << fixed << setprecision(2) << a[i].odnos << " ";
+
+    //cout << "\n";
 
     vector<double>b(n, 0);
     for(int i = 0; i <= n-k; i++){
         for(int j = i; j < i+k; j++){b[i] += a[j].kval;}
         //cout << "B[i] je: " << b[i] << '\n';
-        //cout << "Max je: " << sortiraj(a, i, i+2) << '\n';
-        b[i] = b[i] * sortiraj(a, i, i+2);
+        //cout << "Max je: " << sortiraj(a, i, i+(k-1)) << '\n';
+        b[i] = b[i] * sortiraj(a, i, i+(k-1));
         //cout << "B[i] je: " << b[i] << '\n';
         //if (b[i] == 0)b.erase(b.begin() + i);
     }
 
 
-    make_heap(b.begin(), b.end());
-    sort_heap(b.begin(), b.begin() + k);
+    //make_heap(b.begin(), b.end());
+    //sort_heap(b.begin(), b.begin() + k);
+    sort(b.begin(), b.begin() + k);
 
+    //while(b[0] == 0)b.erase(b.begin());    
 
-    cout << fixed << setprecision(2) << b[0];
+    //cout << "B vektor: " << '\n';
+    for(int i = 0; i < b.size(); i++)
+        cout << fixed << setprecision(2) << b[i] << " ";
+    //cout << fixed << setprecision(2) << b[0];
 
 }

@@ -1,3 +1,3 @@
 # Projektni-Zadatak
-Lob na Blago
+Lov na Blago
 Nedovrseno

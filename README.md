@@ -1,2 +1,3 @@
 # Projektni-Zadatak
-Zadatak sa petlje
+Lob na Blago
+Nedovrseno

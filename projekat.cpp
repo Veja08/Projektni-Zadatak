@@ -98,13 +98,14 @@ int main(){
     rekonstruisi_put(visina-1, visina-1);
 
     vector<Vector2> linijaTacke;
+    vector<Vector2> linijaIgraca;
     int tx = 85;
     int ty = 75;
     linijaTacke.push_back({(float)tx, (float)ty});
     for (char d : direkcije) {
         if (d == 'R') tx += 100;
         else if (d == 'D') ty += 75;
-        linijaTacke.push_back({(float)tx, (float)ty});
+        linijaTacke.push_back({(float)tx + 20, (float)ty});
     }
 
     cout << "Velicina vektora je: " << direkcije.size() << '\n';
@@ -115,6 +116,7 @@ int main(){
         if (IsKeyPressed(KEY_RIGHT) && iX < 685){iX += 100; kolona++;} //Provera da li je pritisnuta desna strelica, ako jeste X kordinata igraca se poveca
         else if (IsKeyPressed(KEY_DOWN) && iY < 500){iY += 75; red++;} //Provera da li je pritisnuta donja strelica, ako jeste Y kordinata igraca se poveca
         if (mapa[red][kolona].posecen == false){sum += mapa[red][kolona].vrednost; mapa[red][kolona].posecen = true;} //Provera da li je trenutno polje na kome se igrac nalazi vec posecen, ako jeste suma se povecava za njegovu vrednost i oznacava se kao posecen
+        linijaIgraca.push_back({(float)iX + 20, (float)iY + 20});
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawRectangle(iX-3, iY-3, 46, 46, BLACK); //Crtanje igraca
@@ -135,7 +137,7 @@ int main(){
     cout << sum << '\n';
     
     float t = 0;
-    while (!WindowShouldClose() && t < 10.0f) {
+    while (!WindowShouldClose() && t < 5.0f) {
         t += GetFrameTime(); // meri proteklo vreme u sekundama
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -143,7 +145,8 @@ int main(){
         DrawText(TextFormat("%i", sum), 200, 200, 50, BLACK);
         DrawText("Maksimalna Suma:", 400, 150, 40, BLACK);
         DrawText(TextFormat("%i", maxSum), 500, 200, 50, BLACK);
-        DrawText(TextFormat("Prikazujem put za: %f", 10.0 - t), 250, 400, 20, BLACK);
+        DrawText(TextFormat("Prikazujem put za: %f", 5.0 - t), 250, 400, 20, BLACK);
+        if (sum == maxSum)DrawText(TextFormat("ACE!"), 375, 300, 20, BLACK);
         EndDrawing();
     }
 
@@ -152,6 +155,7 @@ int main(){
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawRectangle(85-3, 50-3, 46, 46, BLACK);
+        DrawRectangle(iX-3, iY-3, 46, 46, BLACK); //Crtanje igraca na cilju
         //Crtanje mape
         for(int i = 0; i < visina; i++){
             for(int j = 0; j < sirina; j++){
@@ -160,13 +164,21 @@ int main(){
             }
         }
 
-        //Crtanje igraca na cilju
-        DrawRectangle(iX-3, iY-3, 46, 46, BLACK);
 
         //Crtanje najbolje putanje, putanje koja donosi najvecu vrednost
         for (int i = 1; i < linijaTacke.size(); i++) {
             DrawLineV(linijaTacke[i-1], linijaTacke[i], GREEN);
         }
+
+        //Crtanje najbolje putanje, putanje koja donosi najvecu vrednost
+        for (int i = 1; i < linijaIgraca.size(); i++) {
+            DrawLineV(linijaIgraca[i-1], linijaIgraca[i], BLUE);
+        }
+
+        DrawRectangle(85 + 100, 25, 10, 10, GREEN);
+        DrawText("Najbolji put", 85 + 115, 25, 10, BLACK);
+        DrawRectangle(85 + 500, 25, 10, 10, BLUE);
+        DrawText("Igracev put", 85 + 515, 25, 10, BLACK);
 
         EndDrawing();
 
